@@ -67,9 +67,9 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\..\config\ncnn_release.props" />
-    <Import Project="..\..\config\opencv3.props" />
-    <Import Project="..\..\config\VulkanSDK_1.1.92.1.props" />
+    <Import Project="..\config\ncnn_release.props" />
+    <Import Project="..\config\opencv3.props" />
+    <Import Project="..\config\VulkanSDK_1.1.92.1.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />

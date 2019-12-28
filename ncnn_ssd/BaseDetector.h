@@ -4,6 +4,6 @@ class BaseDetector
 public:
 	BaseDetector();
 	~BaseDetector();
-	 virtual void detector(unsigned char pImage, float* mean);
+	/* virtual void detector(unsigned char pImage, float* mean);*/
 };
 
