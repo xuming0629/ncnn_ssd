@@ -23,3 +23,11 @@ typedef struct rectb
 	float right;
 	float bottom;
 }rect;
+
+typedef struct detResult
+{
+	rect box;
+	float score;
+	int label;
+
+}detections;
