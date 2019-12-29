@@ -10,6 +10,8 @@ namespace ncnn_det
 		~PriorBox();
 		void setConfig(ssd_conf config);
 		rect * computePriorBox(int &nCount);
+		void computePriorBox(std::vector<rect> &vecPriorBox);
+
 	private:
 		ssd_conf cfg;
 		std::vector<rect> m_vecDeltaBox;

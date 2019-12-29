@@ -7,7 +7,7 @@ namespace ncnn_det
 		BaseDetector();
 		~BaseDetector();
 		virtual bool loadModel(const char * parmFile, const char* binFile);
-		virtual void detector(unsigned char *pImage,const float* mean, const float* std);
+		virtual void detector(unsigned char *pImage, int nWidth, int nHeight, const float* pMean, const float* pStd, const int dataType);
 		
 	};
 }

@@ -3,6 +3,8 @@
 /***
 default voc ssd300
 ****/
+#define CLASS_NUM 21
+
 typedef struct ssd_config
 {
 	int nNumClass = 21;
@@ -29,5 +31,12 @@ typedef struct detResult
 	rect box;
 	float score;
 	int label;
+	float area;
 
-}detections;
+}detInfo;
+
+typedef struct detPreRes
+{
+	rect box;
+	float score[CLASS_NUM];
+}detPre;

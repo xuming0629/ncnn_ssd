@@ -17,7 +17,7 @@ namespace ncnn_det
 		return false;
 	}
 
-	void BaseDetector::detector(unsigned char *pImage,const float* mean, const float* std)
+	void BaseDetector::detector(unsigned char *pImage, int nWidth, int nHeight, const float* pMean, const float* pStd, const int dataType)
 	{
 
 	}
