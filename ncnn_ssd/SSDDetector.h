@@ -18,7 +18,7 @@ namespace ncnn_det
 		~SSDDetector();
 		virtual bool loadModel(const char * parmFile, const char* binFile);
 		virtual void detector(unsigned char *pImage, int nWidth, int nHeight, const float* pMean, const float* pStd, const int dataType);
-
+		virtual std::vector<detInfo> getDetectInfo();
 	private:
 		std::vector<detInfo> m_vecDet;
 		std::shared_ptr <ncnn::Net> m_SSDNet;

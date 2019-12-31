@@ -64,14 +64,33 @@ namespace ncnn_det
 
 		ncnn::Mat matOutReg = matReg.reshape(matReg.c * matReg.h * matReg.w);
 		std::vector<float> vecReg;
-		printf("%f", matOutReg[1]);
+		printf("%f", matOutReg[0]);
 		float *pReg = (float*)matReg.data;
-		// float *pCls = (float*)matCls.data;
+		float *pCls = (float*)matCls.data;
 		// printf("%f \n", *pReg);
 		std::vector<rect> vecPreBoxes;
+		std::vector<float> vecPreCls;
+		std::vector<detInfo> vecDetInfo;
+		vecDetInfo.resize(matCls.h);
 		for (int i = 0; i < matReg.h; i++)
 		{
 			rect preReg = { pReg[0], pReg[1], pReg[2], pReg[3] };
+
+			float  score = 0.0f;
+			int label = 0;
+			pCls++;
+			for (int j = 1; j < CLASS_NUM; j++)
+			{
+				if (score < * pCls)
+				{
+					score = *pCls;
+					label = j;
+				}
+			
+
+					pCls++;
+							
+			}
 			/*if(i < 10)
 				printf("rec %f %f %f %f\n", pReg[0], pReg[1], pReg[2], pReg[3]);*/
 			if (i < (matReg.h - 1))
@@ -79,17 +98,52 @@ namespace ncnn_det
 				pReg += 4;
 			}
 			vecPreBoxes.push_back(preReg);
+			
+			detInfo detSingle;
+			detSingle.box = preReg;
+			detSingle.label = label;
+			detSingle.score = score;
+			// printf("%f\n", score);
+			vecDetInfo[i] = detSingle;
 		}
+		printf("no decode %f %f %f %f %d %f\n", vecDetInfo[0].box.left, vecDetInfo[0].box.top,
+			vecDetInfo[0].box.right, vecDetInfo[0].box.bottom, vecDetInfo[0].label, vecDetInfo[0].score);
+		printf("prior %f %f %f %f\n", m_vecPriorBoxes[0].left, m_vecPriorBoxes[0].top,
+			m_vecPriorBoxes[0].right, m_vecPriorBoxes[0].bottom);
+
 		printf("box size %d \n", vecPreBoxes.size());
-		printf("prior size %d \n", m_vecPriorBoxes.size());
+		printf("1 detpre size %d \n", vecDetInfo.size());
 		std::vector<float> vecVariance = { 0.1f, 0.2f };
-		delta2Box(vecPreBoxes, m_vecPriorBoxes, vecVariance, vecPreBoxes);
-		for (int i = 0; i < int(vecPreBoxes.size()); i++)
+		delta2Box(vecDetInfo, m_vecPriorBoxes, vecVariance, vecDetInfo);
+		printf("decode %f %f %f %f %d %f\n", vecDetInfo[0].box.left , vecDetInfo[0].box.top ,
+			vecDetInfo[0].box.right , vecDetInfo[0].box.bottom, vecDetInfo[0].label, vecDetInfo[0].score);
+		printf("2 detpre size %d \n", vecDetInfo.size());
+		std::vector<detInfo> vecOutInfo;
+		for (int i = 0; i < vecDetInfo.size(); i++)
 		{
-			if(i < 10)
+			// printf("%f", vecDetInfo[i].area);
+
+		}
+		nms(vecDetInfo, vecOutInfo);
+		// nms(vecOutInfo, vecOutInfo);
+		printf("3 detpre size %d \n", vecOutInfo.size());
+		// const int nTopK = 200;
+		m_vecDet.resize(int(vecOutInfo.size()));
+		for (int i = 0; i < int(vecOutInfo.size()); i++)
+		{
+			m_vecDet[i] = vecOutInfo[i];
+		}
+		for(int i =0; i < m_vecDet.size(); i++)
+		{
+			printf("%f %f %f %f %d %f\n", m_vecDet[0].box.left * 750, vecOutInfo[0].box.top * 1334,
+				m_vecDet[0].box.right*750, m_vecDet[0].box.bottom *1334, m_vecDet[0].label, m_vecDet[0].score);
+		}
+		/*for (int i = 0; i < int(vecPreBoxes.size()); i++)
+		{
+			if(vecPreBoxes[i].left < 100)
 				printf("rec1: %f %f %f %f \n", vecPreBoxes[i].left, vecPreBoxes[i].top,
 				vecPreBoxes[i].right, vecPreBoxes[i].bottom);
-		}
+		}*/
 
 		/*
 		
@@ -124,5 +178,9 @@ namespace ncnn_det
 			nms(vecOutInfo, vecOutInfo);
 		}*/
 
+	}
+	std::vector<detInfo> SSDDetector::getDetectInfo()
+	{
+		return  m_vecDet;
 	}
 }
