@@ -21,7 +21,7 @@ using namespace ncnn_det;
 void ssd_demo()
 {
 
-	cv::Mat img = cv::imread("../data/car.jpg");
+	cv::Mat img = cv::imread("../data/example.jpg");
 	if (img.empty())
 	{
 		printf("image is empty, check path of imgage !!!\n");
