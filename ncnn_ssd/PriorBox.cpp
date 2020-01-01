@@ -16,6 +16,11 @@ namespace ncnn_det
 	{
 		cfg = config;
 	}
+	void PriorBox::getVariance(std::vector<float> &vecVariance)
+	{
+		vecVariance = cfg.vecVariance;
+
+	}
 	rect* PriorBox::computePriorBox(int &nCount)
 	{
 		int image_size = cfg.nMinDim;

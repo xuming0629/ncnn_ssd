@@ -1,6 +1,9 @@
 #pragma once
 namespace ncnn_det
 {
+	/**
+	object detector class base ncnn framework 
+	**/
 	class BaseDetector
 	{
 	public:

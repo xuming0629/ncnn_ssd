@@ -4,7 +4,9 @@
 default voc ssd300
 ****/
 #define CLASS_NUM 21
-
+/**
+	ssd config, prior box' param
+**/
 typedef struct ssd_config
 {
 	int nNumClass = 21;
@@ -18,6 +20,9 @@ typedef struct ssd_config
 
 }ssd_conf;
 
+/**
+	left top right bottom of box
+**/
 typedef struct rectb
 {
 	float left;
@@ -25,7 +30,9 @@ typedef struct rectb
 	float right;
 	float bottom;
 }rect;
-
+/**
+	struct of object
+**/
 typedef struct detResult
 {
 	rect box;
@@ -35,8 +42,3 @@ typedef struct detResult
 
 }detInfo;
 
-typedef struct detPreRes
-{
-	rect box;
-	float score[CLASS_NUM];
-}detPre;
