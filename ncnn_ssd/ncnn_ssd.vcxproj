@@ -119,12 +119,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseDetector.cpp" />
+    <ClCompile Include="box_utils.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PriorBox.cpp" />
     <ClCompile Include="SSDDetector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseDetector.h" />
+    <ClInclude Include="box_utils.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="PriorBox.h" />
     <ClInclude Include="SSDDetector.h" />

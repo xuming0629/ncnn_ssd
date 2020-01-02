@@ -46,6 +46,7 @@ void ssd_demo()
 	printf("object number is %d\n", result.size());
 	for (int i = 0; i < int(result.size()); i++)
 	{
+		
 		int x1 = int(result[i].box.left * src_img.cols);
 		int y1 = int(result[i].box.top * src_img.rows);
 		int x2 = int(result[i].box.right * src_img.cols);
@@ -53,11 +54,15 @@ void ssd_demo()
 		
 		float score = result[i].score;
 		int label = result[i].label;
+		if (score < 0.6)
+		{
+			continue;
+		}
 		cv::rectangle(src_img, cv::Rect(x1, y1, (x2 - x1 + 1), (y2 - y1 + 1)), cv::Scalar(0, 0, 255), 2);
-		cv::putText(src_img, VOC_CLASSES[label-1] + " " + std::to_string(score), cv::Point(int(x1), int(y1 - 3)), 2, 1, cv::Scalar(255, 255, 0), 1);
+		cv::putText(src_img, VOC_CLASSES[label-1] + " " + std::to_string(score), cv::Point(int(x1), int(y1 - 3)), 1, 1, cv::Scalar(255, 255, 0), 1);
 		printf("x1:%d y1:%d x2:%d y2:%d score: %.2f label: %d\n ", x1, y1, x2, y2, score, label);
 	}
-
+	cv::imwrite("../data/demo.jpg", src_img);
 	printf("ssd vgg forward spend time:%.3f ms\n", (end_time - start_time));
 	cv::imshow("detect", src_img);
 	cv::waitKey(-1);
