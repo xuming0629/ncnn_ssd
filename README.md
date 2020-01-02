@@ -43,9 +43,13 @@ pytorhc ssd: <https://github.com/amdegroot/ssd.pytorch>
   double end_time = ncnn::get_current_time();
   ```
 
+## TODO
+
+- [ ] Ssd support android 
+
 ##  实验结果
 
-## ![demo](.\data\demo.jpg)
+## ![demo](data\demo.jpg)
 
 
 
