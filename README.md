@@ -1,7 +1,7 @@
 # ncnn_ssd
 ssd.pytorch to ncnn C++
 
-pytorhc ssd: <https://github.com/amdegroot/ssd.pytorch>
+[pytorhc ssd](https://github.com/jmu201521121021/ssd.pytorch) fork from [pytorch.ssd](https://github.com/amdegroot/ssd.pytorch)
 
 ## 软件环境
 
@@ -43,13 +43,17 @@ pytorhc ssd: <https://github.com/amdegroot/ssd.pytorch>
   double end_time = ncnn::get_current_time();
   ```
 
+## Model
+
+- move L2Norm layer and finetuen mAP=74.9 ,download ncnn model ,please check here [BaiduDrive](https://pan.baidu.com/s/1KTzZ1Jgr8g9mbPc6QXpT3g ) ,提取码：nd9w
+
 ## TODO
 
 - [ ] Ssd support android 
 
 ##  实验结果
 
-## ![demo](data\demo.jpg)
+## ![demo](https://github.com/jmu201521121021/ncnn_ssd/raw/develop/data/demo.jpg)
 
-
+![demo](https://github.com/jmu201521121021/ncnn_ssd/raw/develop/data/demo_1.jpg)
 
