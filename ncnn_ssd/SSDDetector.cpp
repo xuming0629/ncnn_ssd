@@ -1,26 +1,29 @@
 #include "SSDDetector.h"
 #include "box_utils.h"
+
 namespace ncnn_det
 {
 
 	SSDDetector::SSDDetector()
 	{
-		 m_SSDNet.reset(new ncnn::Net);
 		 m_priorBox.reset(new PriorBox);
-		//  m_matInput.reset(new ncnn::Mat);
-
 		 // get prior boxe
-		 m_priorBox.get()->computePriorBox(m_vecPriorBoxes);
-		 m_priorBox.get()->getVariance(m_vecVariance);
+		 m_priorBox->computePriorBox(m_vecPriorBoxes);
+		 m_priorBox->getVariance(m_vecVariance);
+#if NCNN_VULKAN 
+		 ncnn::create_gpu_instance();
+#endif
 	}
 
 
 	SSDDetector::~SSDDetector()
 	{
-		m_SSDNet.get()->clear();
+		m_SSDNet->clear();
 		m_SSDNet.reset();
 		m_priorBox.reset();
-		
+#if NCNN_VULKAN
+		ncnn::destroy_gpu_instance();
+#endif
 	}
 	bool SSDDetector::loadModel(const char * parmFile, const char* binFile)
 	{
@@ -28,13 +31,26 @@ namespace ncnn_det
 		{
 			m_SSDNet.reset(new ncnn::Net);
 		}
-		if (m_SSDNet.get()->load_param(parmFile) || m_SSDNet.get()->load_model(binFile))
+		ncnn::Option opt;
+		opt.lightmode = true;
+		opt.num_threads = m_num_threads;
+
+#if NCNN_VULKAN
+		opt.blob_allocator = &g_blob_pool_allocator;
+		opt.workspace_allocator = &g_workspace_pool_allocator;
+		// use vulkan compute
+		if (ncnn::get_gpu_count() != 0)
+			opt.use_vulkan_compute = 1;
+#endif // NCNN_VULKAN
+
+		m_SSDNet->opt = opt;
+
+		if (m_SSDNet->load_param(parmFile) || m_SSDNet->load_model(binFile))
 		{
 			printf(" load model falsed!!!, param or bin file is not exit or bad\n");
 			return false;
 			
 		}
-
 		return true;
 
 	}
@@ -65,9 +81,13 @@ namespace ncnn_det
 #ifdef DEBUG
 		printf("theads num: %d\n ", m_num_threads);
 #endif // DEBUG
-		ncnn::Extractor ext = m_SSDNet.get()->create_extractor();
-		ext.set_num_threads(m_num_threads);
-		ext.set_light_mode(true);
+		ncnn::Extractor ext = m_SSDNet->create_extractor();
+		// ext.set_num_threads(m_num_threads);
+		// ext.set_light_mode(true);
+#if NCNN_VULKAN
+		ext.set_vulkan_compute(true);
+#endif // NCNN_VULKAN
+
 		ext.input("input", in);
 		ext.extract("reg", matReg);
 		ext.extract("cls", matCls);

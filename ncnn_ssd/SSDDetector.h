@@ -1,10 +1,9 @@
 #pragma once
 
 #include <iostream>
+#include <memory>
 #include "BaseDetector.h"
 #include "PriorBox.h"
-#include "common.h"
-#include <memory>
 #include "net.h"
 #include "mat.h"
 
@@ -55,6 +54,11 @@ namespace ncnn_det
 		float m_nmsThresh = 0.5;					// nms thresh
 		int m_topK = 200;							// nms top 
 		int m_num_threads = 1;						// ext threads for speed up
+
+#if NCNN_VULKAN
+		ncnn::UnlockedPoolAllocator g_blob_pool_allocator;
+		ncnn::PoolAllocator g_workspace_pool_allocator;
+#endif //  NCNN_VULANK
 	};
 }
 

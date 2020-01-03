@@ -1,7 +1,7 @@
 # ncnn_ssd
 ssd.pytorch to ncnn C++
 
-[pytorhc ssd](https://github.com/jmu201521121021/ssd.pytorch) fork from [pytorch.ssd](https://github.com/amdegroot/ssd.pytorch)
+[pytorch ssd](https://github.com/jmu201521121021/ssd.pytorch) fork from [pytorch.ssd](https://github.com/amdegroot/ssd.pytorch)
 
 ## 软件环境
 
@@ -9,7 +9,7 @@ ssd.pytorch to ncnn C++
 
 
 - visual studio 2017
-- ncnn （cpu）
+- ncnn （cpu or vulkan）
 - opencv 3.0
 
 ## demo
@@ -45,10 +45,11 @@ ssd.pytorch to ncnn C++
 
 ## Model
 
-- move L2Norm layer and finetuen mAP=74.9 ,download ncnn model ,please check here [BaiduDrive](https://pan.baidu.com/s/1KTzZ1Jgr8g9mbPc6QXpT3g ) ,提取码：nd9w
+- move L2Norm layer and finetuen mAP=74.9 ,download ncnn model ,please check here [[BaiduDrive]](https://pan.baidu.com/s/1KTzZ1Jgr8g9mbPc6QXpT3g ) ,提取码：nd9w
 
 ## TODO
 
+- [x] Support gpu
 - [ ] Ssd support android 
 
 ##  实验结果
