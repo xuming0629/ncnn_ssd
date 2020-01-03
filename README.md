@@ -9,8 +9,14 @@ ssd.pytorch to ncnn C++
 
 
 - visual studio 2017
+
 - ncnn （cpu or vulkan）
+
 - opencv 3.0
+
+- VulkanSDK-1.1.92.1(option)
+
+  **Download ThirdParty(opencv ncnn vulkan) , please check here [BaiduDrive](https://pan.baidu.com/s/19m3mRaEaRWIFFalVmRyTTw ) 提取码：n3jl , finish ,**move   ThirdParty file to $<ncnn-ssd-root>$
 
 ## demo
 
