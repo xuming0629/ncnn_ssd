@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.12)
 set(NCNN_OPENMP ON)
-set(NCNN_VULKAN OFF)
+set(NCNN_VULKAN ON)
 if(NCNN_OPENMP)
     find_package(OpenMP)
 endif()
@@ -21,7 +21,7 @@ if(WIN32)
         INTERFACE_LINK_LIBRARIES "Vulkan::Vulkan;OpenMP::OpenMP_CXX"
     )
 elseif(ANDROID)
-    include_directories(${NCNN_DIR}/android//${CMAKE_ANDROID_ARCH_ABI}/include/ncnn)
+    include_directories(${NCNN_DIR}/android/${CMAKE_ANDROID_ARCH_ABI}/include/ncnn)
     message(STATUS " this is android ncnn include dir " ${NCNN_DIR}/android/${CMAKE_ANDROID_ARCH_ABI}/include/ncnn)
     set_target_properties(
         ncnn

@@ -15,7 +15,6 @@ namespace ncnn_det
 {
 	class PriorBox;
 
-
 	class SSDDetector:public BaseDetector
 	{
 	public:

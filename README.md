@@ -1,5 +1,5 @@
 # ncnn_ssd
-ssd.pytorch to ncnn C++
+ssd.pytorch to ncnn C++ and android platform.
 
 [pytorch ssd](https://github.com/jmu201521121021/ssd.pytorch) fork from [pytorch.ssd](https://github.com/amdegroot/ssd.pytorch)
 
@@ -56,7 +56,7 @@ ssd.pytorch to ncnn C++
 ## TODO
 
 - [x] Support gpu
-- [ ] Ssd support android 
+- [x] Ssd support android ,check here : <https://github.com/jmu201521121021/ncnn-android-ssd>
 
 ##  实验结果
 
