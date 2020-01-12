@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.12)
 set(NCNN_OPENMP ON)
-set(NCNN_VULKAN ON)
+set(NCNN_VULKAN OFF)
 if(NCNN_OPENMP)
     find_package(OpenMP)
 endif()
