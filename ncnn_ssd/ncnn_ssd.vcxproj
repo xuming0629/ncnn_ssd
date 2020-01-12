@@ -118,9 +118,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\demo\main.cpp" />
     <ClCompile Include="BaseDetector.cpp" />
     <ClCompile Include="box_utils.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="PriorBox.cpp" />
     <ClCompile Include="SSDDetector.cpp" />
   </ItemGroup>
@@ -130,6 +130,7 @@
     <ClInclude Include="common.h" />
     <ClInclude Include="PriorBox.h" />
     <ClInclude Include="SSDDetector.h" />
+    <ClInclude Include="ssd_vgg300.id.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

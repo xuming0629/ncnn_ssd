@@ -5,8 +5,8 @@
 
 
 // #include "common.h"
-#include "PriorBox.h"
-#include "SSDDetector.h"
+#include "../ncnn_ssd//SSDDetector.h"
+
 #include "net.h"
 #include "benchmark.h"
 using namespace ncnn_det;
@@ -27,7 +27,7 @@ void ssd_demo()
 #endif //  NCNN_VULKAN  
 
 
-	cv::Mat img = cv::imread("../data/example.jpg");
+	cv::Mat img = cv::imread("../data/car.jpg");
 	if (img.empty())
 	{
 		printf("image is empty, check path of imgage !!!\n");
@@ -37,11 +37,14 @@ void ssd_demo()
 	printf("%d %d \n", img.cols, img.rows);
 	cv::resize(img, img, cv::Size(300, 300));
 	printf("%d %d", img.rows, img.cols);
-	char parmFile[] = "../models/ssd/ssd_vgg300.param";
+	/*char parmFile[] = "../models/ssd/ssd_vgg300.param";
+	char binFile[] = "../models/ssd/ssd_vgg300.bin";*/
+	char parmFile[] = "../models/ssd/ssd_vgg300.param.bin";
 	char binFile[] = "../models/ssd/ssd_vgg300.bin";
+
 	SSDDetector ssdDet;
 	ssdDet.setNumTheads(4);
-	ssdDet.loadModel(parmFile, binFile);
+	ssdDet.loadModel(parmFile, binFile, 1);
 	
 	const float fMean[3] = { 104.0f, 117.0f, 123.0f };
 
@@ -82,13 +85,15 @@ void vedio_demo()
 #endif //  NCNN_VULKAN  
 
 	cv::VideoCapture cap(0);
-	char parmFile[] = "../models/ssd/ssd_vgg300.param";
+	/*char parmFile[] = "../models/ssd/ssd_vgg300.param";
+	char binFile[] = "../models/ssd/ssd_vgg300.bin";*/
+	char parmFile[] = "../models/ssd/ssd_vgg300.param.bin";
 	char binFile[] = "../models/ssd/ssd_vgg300.bin";
 	SSDDetector ssdDet;
 	cv::Mat img;
 	cv::Mat src_img;
 	ssdDet.setNumTheads(4);
-	ssdDet.loadModel(parmFile, binFile);
+	ssdDet.loadModel(parmFile, binFile, 1);
 	while (1)
 	{
 		cap >> img;
@@ -96,7 +101,9 @@ void vedio_demo()
 		cv::resize(img, img, cv::Size(300, 300));
 		const float fMean[3] = { 104.0f, 117.0f, 123.0f };
 		double start_time = ncnn::get_current_time();
-		ssdDet.detector(img.data, img.cols, img.rows, fMean, NULL, 0);
+		ncnn::Mat in = ncnn::Mat::from_pixels(img.data, ncnn::Mat::PIXEL_BGR, img.cols, img.rows);
+		/*ssdDet.detector(img.data, img.cols, img.rows, fMean, NULL, 0);*/
+		ssdDet.detector(in, img.cols, img.rows, fMean, NULL, 0);
 		double end_time = ncnn::get_current_time();
 
 		std::vector<detInfo> result = ssdDet.getDetectInfo();
@@ -129,7 +136,7 @@ void vedio_demo()
 }
 int main()
 {
-	//ssd_demo();
-	vedio_demo();
+	ssd_demo();
+	//vedio_demo();
 	system("pause");
 }

@@ -1,5 +1,8 @@
 #include "PriorBox.h"
-#include <math.h>
+#include<math.h>
+#include <iostream>
+#include <algorithm>
+
 
 namespace ncnn_det
 {
@@ -39,36 +42,36 @@ namespace ncnn_det
 					float fCx = float(j + 0.5) / fFK;
 					float fCy = float(i + 0.5) / fFK;
 
-					fCx = std::fmaxf(fCx, 0.0f);
-					fCy = std::fmaxf(fCy, 0.0f);
+					fCx = std::max(fCx, 0.0f);
+					fCy = std::max(fCy, 0.0f);
 
-					fCx = std::fminf(fCx, 1.0f);
-					fCy = std::fminf(fCy, 1.0f);
+					fCx = std::min(fCx, 1.0f);
+					fCy = std::min(fCy, 1.0f);
 					
 					// ratio = 1 mix size
 					int nMinSizeK = cfg.vecMinSizes[k];
 					float fMinWH = float(nMinSizeK) / float(image_size);
-					fMinWH = std::fmaxf(fMinWH, 0.0f);
-					fMinWH = std::fminf(fMinWH, 1.0f);
+					fMinWH = std::max(fMinWH, 0.0f);
+					fMinWH = std::min(fMinWH, 1.0f);
 
 					rect rec = {fCx, fCy, fMinWH, fMinWH};
 					m_vecDeltaBox.push_back(rec);
 					
 					// ratio = 1 min-max
-					float fMinMaxWH = sqrtf(float(fMinWH) * (float(cfg.vecMaxSizes[k]) / float(image_size)));
+					float fMinMaxWH =sqrt(float(fMinWH) * (float(cfg.vecMaxSizes[k]) / float(image_size)));
 					
-					fMinMaxWH = std::fmaxf(fMinMaxWH, 0.0f);
-					fMinMaxWH = std::fminf(fMinMaxWH, 1.0f);
+					fMinMaxWH = std::max(fMinMaxWH, 0.0f);
+					fMinMaxWH = std::min(fMinMaxWH, 1.0f);
 
 					rec = { fCx, fCy, fMinMaxWH, fMinMaxWH };
 					m_vecDeltaBox.push_back(rec);
 
 					for (int m = 0; m < cfg.vecAspectRatios[k].size(); m++)
 					{
-						float fRatio = sqrtf(float(cfg.vecAspectRatios[k][m]));
-						rec = { fCx, fCy,  std::fminf(std::fmaxf(fRatio * fMinWH, 0.0f), 1.0f),  std::fminf(std::fmaxf(fMinWH / fRatio, 0.0f), 1.0f) };
+						float fRatio = sqrt(float(cfg.vecAspectRatios[k][m]));
+						rec = { fCx, fCy,  std::min(std::max(fRatio * fMinWH, 0.0f), 1.0f),  std::min(std::max(fMinWH / fRatio, 0.0f), 1.0f) };
 						m_vecDeltaBox.push_back(rec);
-						rec = { fCx, fCy,  std::fminf(std::fmaxf(fMinWH / fRatio, 0.0f), 1.0f),  std::fminf(std::fmaxf(fMinWH * fRatio, 0.0f), 1.0f) };
+						rec = { fCx, fCy,  std::min(std::max(fMinWH / fRatio, 0.0f), 1.0f),  std::min(std::max(fMinWH * fRatio, 0.0f), 1.0f) };
 						m_vecDeltaBox.push_back(rec);
 					}
 
@@ -97,36 +100,36 @@ namespace ncnn_det
 					float fCx = float(j + 0.5) / fFK;
 					float fCy = float(i + 0.5) / fFK;
 
-					fCx = std::fmaxf(fCx, 0.0f);
-					fCy = std::fmaxf(fCy, 0.0f);
+					fCx = std::max(fCx, 0.0f);
+					fCy = std::max(fCy, 0.0f);
 
-					fCx = std::fminf(fCx, 1.0f);
-					fCy = std::fminf(fCy, 1.0f);
+					fCx = std::min(fCx, 1.0f);
+					fCy = std::min(fCy, 1.0f);
 
 					// ratio = 1 mix size
 					int nMinSizeK = cfg.vecMinSizes[k];
 					float fMinWH = float(nMinSizeK) / float(image_size);
-					fMinWH = std::fmaxf(fMinWH, 0.0f);
-					fMinWH = std::fminf(fMinWH, 1.0f);
+					fMinWH = std::max(fMinWH, 0.0f);
+					fMinWH = std::min(fMinWH, 1.0f);
 
 					rect rec = { fCx, fCy, fMinWH, fMinWH };
 					vecPriorBox.push_back(rec);
 
 					// ratio = 1 min-max
-					float fMinMaxWH = sqrtf(float(fMinWH) * (float(cfg.vecMaxSizes[k]) / float(image_size)));
+					float fMinMaxWH = sqrt(float(fMinWH) * (float(cfg.vecMaxSizes[k]) / float(image_size)));
 
-					fMinMaxWH = std::fmaxf(fMinMaxWH, 0.0f);
-					fMinMaxWH = std::fminf(fMinMaxWH, 1.0f);
+					fMinMaxWH = std::max(fMinMaxWH, 0.0f);
+					fMinMaxWH = std::min(fMinMaxWH, 1.0f);
 
 					rec = { fCx, fCy, fMinMaxWH, fMinMaxWH };
 					vecPriorBox.push_back(rec);
 
 					for (int m = 0; m < cfg.vecAspectRatios[k].size(); m++)
 					{
-						float fRatio = sqrtf(float(cfg.vecAspectRatios[k][m]));
-						rec = { fCx, fCy,  std::fminf(std::fmaxf(fRatio * fMinWH, 0.0f), 1.0f),  std::fminf(std::fmaxf(fMinWH / fRatio, 0.0f), 1.0f) };
+						float fRatio = sqrt(float(cfg.vecAspectRatios[k][m]));
+						rec = { fCx, fCy,  std::min(std::max(fRatio * fMinWH, 0.0f), 1.0f),  std::min(std::max(fMinWH / fRatio, 0.0f), 1.0f) };
 						vecPriorBox.push_back(rec);
-						rec = { fCx, fCy,  std::fminf(std::fmaxf(fMinWH / fRatio, 0.0f), 1.0f),  std::fminf(std::fmaxf(fMinWH * fRatio, 0.0f), 1.0f) };
+						rec = { fCx, fCy,  std::min(std::max(fMinWH / fRatio, 0.0f), 1.0f),  std::min(std::max(fMinWH * fRatio, 0.0f), 1.0f) };
 						vecPriorBox.push_back(rec);
 					}
 

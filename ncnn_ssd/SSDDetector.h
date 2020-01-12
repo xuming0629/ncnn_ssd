@@ -2,14 +2,20 @@
 
 #include <iostream>
 #include <memory>
-#include "BaseDetector.h"
-#include "PriorBox.h"
+#include "platform.h"
 #include "net.h"
 #include "mat.h"
+#include "common.h"
+#include "BaseDetector.h"
+#if __ANDROID_API__ >= 9
+#include <android/asset_manager.h>
+#endif // __ANDROID_API__ >= 9
 
 namespace ncnn_det
 {
 	class PriorBox;
+
+
 	class SSDDetector:public BaseDetector
 	{
 	public:
@@ -19,12 +25,18 @@ namespace ncnn_det
 			@brief load ncnn param file and bin file
 			@param paramFile [input] 
 			@param binFile	 [input]
+			@param loadType  [input] 0，1， 2， 0->load from param file and bin file, 1->load from bin file, 2->load from memery
 		**/
-		virtual bool loadModel(const char * parmFile, const char* binFile);
+		virtual bool loadModel(const char * paramFile, const char* binFile, const int loadType=0);
+#if __ANDROID_API__ >= 9
+		virtual int loadAndroidModel(AAssetManager* mgr, const char * paramFile, const char* binFile, const int loadType = 0);
+#endif
 		/**
 			@brief ssd model forward, include forward and nms
 		**/
 		virtual void detector(unsigned char *pImage, int nWidth, int nHeight, const float* pMean, const float* pStd, const int dataType);
+
+		virtual void  detector(ncnn::Mat matIn, int nWidth, int nHeight, const float* pMean, const float* pStd, const int dataType);
 		/**
 			@brief return detect result 
 			@return  std::vector<detInfo>
@@ -50,6 +62,7 @@ namespace ncnn_det
 		std::shared_ptr <PriorBox> m_priorBox;		// priorbox class
 		std::vector<rect> m_vecPriorBoxes;			// priorbox clas
 		std::vector<float> m_vecVariance;			// porobox variance
+		int m_loadModelType;							// load model type
 		float m_confThresh = 0.45;					// confidence thresh
 		float m_nmsThresh = 0.5;					// nms thresh
 		int m_topK = 200;							// nms top 
